@@ -1,6 +1,8 @@
 package org.springframework.integration.aws.sqs.config;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -9,7 +11,6 @@ import org.junit.After;
 import org.junit.Test;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.integration.MessageChannel;
 import org.springframework.integration.aws.JsonMessageMarshaller;
 import org.springframework.integration.aws.MessageMarshaller;
 import org.springframework.integration.aws.sqs.core.SqsExecutor;
@@ -17,6 +18,7 @@ import org.springframework.integration.channel.AbstractMessageChannel;
 import org.springframework.integration.endpoint.EventDrivenConsumer;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.integration.test.util.TestUtils;
+import org.springframework.messaging.MessageChannel;
 
 /**
  * 

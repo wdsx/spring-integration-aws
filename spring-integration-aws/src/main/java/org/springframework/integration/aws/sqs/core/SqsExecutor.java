@@ -17,8 +17,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.integration.Message;
-import org.springframework.integration.MessagingException;
 import org.springframework.integration.aws.AwsUtil;
 import org.springframework.integration.aws.JsonMessageMarshaller;
 import org.springframework.integration.aws.MessageMarshaller;
@@ -26,6 +24,8 @@ import org.springframework.integration.aws.MessageMarshallerException;
 import org.springframework.integration.aws.Permission;
 import org.springframework.integration.aws.sqs.SqsHeaders;
 import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessagingException;
 import org.springframework.util.Assert;
 
 import com.amazonaws.ClientConfiguration;
@@ -354,7 +354,7 @@ public class SqsExecutor implements InitializingBean, DisposableBean {
 		return message;
 	}
 
-	public String acknowlegdeReceipt(Message<?> message) {
+	public String acknowledgeReceipt(Message<?> message) {
 		String receiptHandle = (String) message.getHeaders().get(
 				SqsHeaders.MSG_RECEIPT_HANDLE);
 		if (sqsClient != null && receiptHandle != null

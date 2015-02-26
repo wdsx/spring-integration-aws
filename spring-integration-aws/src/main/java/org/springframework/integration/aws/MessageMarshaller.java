@@ -1,6 +1,7 @@
 package org.springframework.integration.aws;
 
-import org.springframework.integration.Message;
+import org.springframework.messaging.Message;
+
 
 /**
  * Interface for marshalling a Message to a String suitable for sending to AWS

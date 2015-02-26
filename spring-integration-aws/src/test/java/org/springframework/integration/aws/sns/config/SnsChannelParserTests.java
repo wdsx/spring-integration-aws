@@ -1,7 +1,14 @@
 package org.springframework.integration.aws.sns.config;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -11,14 +18,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.integration.Message;
-import org.springframework.integration.MessagingException;
 import org.springframework.integration.aws.sns.SnsExecutorProxy;
 import org.springframework.integration.aws.sns.channel.PublishSubscribeSnsChannel;
 import org.springframework.integration.aws.sns.core.SnsExecutor;
-import org.springframework.integration.core.MessageHandler;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.integration.test.util.TestUtils;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHandler;
+import org.springframework.messaging.MessagingException;
 
 import com.amazonaws.services.sns.model.Subscription;
 

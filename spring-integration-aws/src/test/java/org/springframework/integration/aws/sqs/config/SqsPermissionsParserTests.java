@@ -1,7 +1,10 @@
 package org.springframework.integration.aws.sqs.config;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertThat;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,9 +19,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.integration.aws.Permission;
 import org.springframework.integration.aws.sqs.core.SqsExecutor;
 import org.springframework.integration.core.MessageProducer;
-import org.springframework.integration.core.SubscribableChannel;
 import org.springframework.integration.endpoint.EventDrivenConsumer;
 import org.springframework.integration.test.util.TestUtils;
+import org.springframework.messaging.SubscribableChannel;
 
 /**
  * @author Sayantam Dey

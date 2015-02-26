@@ -7,9 +7,9 @@ import java.util.Map;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.integration.Message;
-import org.springframework.integration.MessageHeaders;
 import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
 
 /**
  * Marshaller implementation for JSON.
@@ -70,26 +70,22 @@ public class JsonMessageMarshaller implements MessageMarshaller {
 			MessageHeaders messageHeaders) {
 
 		Map<String, String> map = new HashMap<String, String>();
-		if (messageHeaders.getCorrelationId() != null) {
-			map.put(HeaderKeys.CORRELATION_ID, messageHeaders
-					.getCorrelationId().toString());
+		if (messageHeaders.containsKey(HeaderKeys.CORRELATION_ID)) {
+			map.put(HeaderKeys.CORRELATION_ID, messageHeaders.get(HeaderKeys.CORRELATION_ID).toString());
 		}
-		if (messageHeaders.getExpirationDate() != null) {
-			map.put(HeaderKeys.EXPIRATION_DATE, messageHeaders
-					.getExpirationDate().toString());
+		if (messageHeaders.containsKey(HeaderKeys.EXPIRATION_DATE)) {
+			map.put(HeaderKeys.EXPIRATION_DATE, messageHeaders.get(HeaderKeys.EXPIRATION_DATE).toString());
 		}
-		if (messageHeaders.getPriority() != null) {
-			map.put(HeaderKeys.PRIORITY, messageHeaders.getPriority()
-					.toString());
+		if (messageHeaders.containsKey(HeaderKeys.PRIORITY)) {
+			map.put(HeaderKeys.PRIORITY, messageHeaders.get(HeaderKeys.PRIORITY).toString());
 		}
-		if (messageHeaders.getSequenceNumber() != null) {
-			map.put(HeaderKeys.SEQUENCE_NUMBER, messageHeaders
-					.getSequenceNumber().toString());
+		if (messageHeaders.containsKey(HeaderKeys.SEQUENCE_NUMBER)) {
+			map.put(HeaderKeys.SEQUENCE_NUMBER, messageHeaders.get(HeaderKeys.SEQUENCE_NUMBER).toString());
 		}
-		if (messageHeaders.getSequenceSize() != null) {
-			map.put(HeaderKeys.SEQUENCE_SIZE, messageHeaders.getSequenceSize()
-					.toString());
+		if (messageHeaders.containsKey(HeaderKeys.SEQUENCE_SIZE)) {
+			map.put(HeaderKeys.SEQUENCE_SIZE, messageHeaders.get(HeaderKeys.SEQUENCE_SIZE).toString());
 		}
+		
 		return map;
 	}
 
@@ -245,11 +241,11 @@ public class JsonMessageMarshaller implements MessageMarshaller {
 	}
 
 	private abstract class HeaderKeys {
-		public static final String CORRELATION_ID = "CorrelationId";
-		private static final String EXPIRATION_DATE = "ExpirationDate";
-		private static final String PRIORITY = "Priority";
-		private static final String SEQUENCE_NUMBER = "SequenceNumber";
-		private static final String SEQUENCE_SIZE = "SequenceSize";
+		public static final String CORRELATION_ID = "correlationId";
+		private static final String EXPIRATION_DATE = "expirationDate";
+		private static final String PRIORITY = "priority";
+		private static final String SEQUENCE_NUMBER = "sequenceNumber";
+		private static final String SEQUENCE_SIZE = "sequenceSize";
 	}
 
 }

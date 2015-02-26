@@ -116,8 +116,7 @@ public class HttpEndpoint implements HttpRequestHandler {
 			log.debug("Message received:\n" + source);
 			JSONObject notification = new JSONObject(source);
 			if (passThru || validSignature(source, notification)) {
-				notificationHandler.onNotification(notification
-						.getString("Message"));
+				notificationHandler.onNotification(notification.getJSONObject("Message").toString());
 			}
 			response.setStatus(HttpServletResponse.SC_ACCEPTED);
 		} catch (JSONException e) {

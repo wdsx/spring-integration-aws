@@ -1,7 +1,7 @@
 package org.springframework.integration.aws.sqs.config;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 import org.junit.After;
 import org.junit.Test;

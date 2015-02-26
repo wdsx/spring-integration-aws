@@ -10,18 +10,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.SmartLifecycle;
-import org.springframework.integration.Message;
-import org.springframework.integration.MessagingException;
 import org.springframework.integration.aws.sqs.SqsHeaders;
 import org.springframework.integration.aws.sqs.core.SqsExecutor;
 import org.springframework.integration.channel.AbstractMessageChannel;
-import org.springframework.integration.core.MessageHandler;
-import org.springframework.integration.core.PollableChannel;
-import org.springframework.integration.core.SubscribableChannel;
 import org.springframework.integration.dispatcher.MessageDispatcher;
 import org.springframework.integration.dispatcher.RoundRobinLoadBalancingStrategy;
 import org.springframework.integration.dispatcher.UnicastingDispatcher;
 import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHandler;
+import org.springframework.messaging.MessagingException;
+import org.springframework.messaging.PollableChannel;
+import org.springframework.messaging.SubscribableChannel;
 import org.springframework.util.Assert;
 
 
@@ -170,7 +170,7 @@ public class SubscribableSqsChannel extends AbstractMessageChannel implements
 						public void run() {
 							try {
 								dispatcher.dispatch(message);
-								sqsExecutor.acknowlegdeReceipt(message);
+								sqsExecutor.acknowledgeReceipt(message);
 								log.debug("Message dispatched...");
 							} catch (Throwable t) {
 								log.warn(t.getMessage(), t);
@@ -208,7 +208,7 @@ public class SubscribableSqsChannel extends AbstractMessageChannel implements
 
 						@Override
 						public String call() throws Exception {
-							return sqsExecutor.acknowlegdeReceipt(callBackRef);
+							return sqsExecutor.acknowledgeReceipt(callBackRef);
 						}
 					}).build();
 		}

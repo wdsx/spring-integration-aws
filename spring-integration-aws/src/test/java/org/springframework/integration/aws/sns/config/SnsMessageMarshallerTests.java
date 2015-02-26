@@ -1,7 +1,8 @@
 package org.springframework.integration.aws.sns.config;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,9 +12,9 @@ import org.springframework.integration.aws.MessageMarshaller;
 import org.springframework.integration.aws.sns.core.SnsExecutor;
 import org.springframework.integration.aws.support.TestMessageMarshaller;
 import org.springframework.integration.core.MessageProducer;
-import org.springframework.integration.core.SubscribableChannel;
 import org.springframework.integration.endpoint.EventDrivenConsumer;
 import org.springframework.integration.test.util.TestUtils;
+import org.springframework.messaging.SubscribableChannel;
 
 public class SnsMessageMarshallerTests {
 

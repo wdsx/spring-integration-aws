@@ -1,6 +1,7 @@
 package org.springframework.integration.aws;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -9,10 +10,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.springframework.integration.Message;
-import org.springframework.integration.MessageHeaders;
 import org.springframework.integration.aws.support.TestPojo;
 import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
 
 @RunWith(JUnit4.class)
 public class JsonMessageMarshallerTest {
@@ -61,14 +62,13 @@ public class JsonMessageMarshallerTest {
 		assertEquals(sent.getPayload(), received.getPayload());
 		MessageHeaders sentHeaders = sent.getHeaders();
 		MessageHeaders recvHeaders = received.getHeaders();
-		assertEquals(sentHeaders.getCorrelationId(),
-				recvHeaders.getCorrelationId());
-		assertEquals(new Long(expiryTime), recvHeaders.getExpirationDate());
-		assertEquals(sentHeaders.getPriority(), recvHeaders.getPriority());
-		assertEquals(sentHeaders.getSequenceNumber(),
-				recvHeaders.getSequenceNumber());
-		assertEquals(sentHeaders.getSequenceSize(),
-				recvHeaders.getSequenceSize());
+		assertEquals(sentHeaders.get(HeaderKeys.CORRELATION_ID), recvHeaders.get(HeaderKeys.CORRELATION_ID));
+		assertEquals(new Long(expiryTime), recvHeaders.get(HeaderKeys.EXPIRATION_DATE));
+		assertEquals(sentHeaders.get(HeaderKeys.PRIORITY), recvHeaders.get(HeaderKeys.PRIORITY));
+		assertEquals(sentHeaders.get(HeaderKeys.SEQUENCE_NUMBER),
+				recvHeaders.get(HeaderKeys.SEQUENCE_NUMBER));
+		assertEquals(sentHeaders.get(HeaderKeys.SEQUENCE_SIZE),
+				recvHeaders.get(HeaderKeys.SEQUENCE_SIZE));
 		assertEquals(sentHeaders.get("fubar", String.class),
 				recvHeaders.get("fubar", String.class));
 		assertEquals(pojo, recvHeaders.get("pojo", TestPojo.class));
@@ -130,6 +130,14 @@ public class JsonMessageMarshallerTest {
 		Message<?> packet = marshaller.deserialize(simpleMessage);
 
 		assertEquals(simpleMessage, packet.getPayload());
+	}
+	
+	private abstract class HeaderKeys {
+		public static final String CORRELATION_ID = "correlationId";
+		private static final String EXPIRATION_DATE = "expirationDate";
+		private static final String PRIORITY = "priority";
+		private static final String SEQUENCE_NUMBER = "sequenceNumber";
+		private static final String SEQUENCE_SIZE = "sequenceSize";
 	}
 
 }

@@ -1,8 +1,11 @@
 package org.springframework.integration.aws.sqs;
 
-import static junit.framework.Assert.*;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 
@@ -11,12 +14,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.springframework.integration.Message;
 import org.springframework.integration.aws.JsonMessageMarshaller;
 import org.springframework.integration.aws.MessageMarshaller;
 import org.springframework.integration.aws.MessageMarshallerException;
 import org.springframework.integration.aws.sqs.core.SqsExecutor;
 import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.Message;
 
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.model.ReceiveMessageRequest;

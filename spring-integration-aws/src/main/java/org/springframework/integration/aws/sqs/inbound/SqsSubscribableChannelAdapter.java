@@ -7,12 +7,12 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.integration.Message;
 import org.springframework.integration.aws.sqs.SqsHeaders;
 import org.springframework.integration.aws.sqs.core.SqsExecutor;
 import org.springframework.integration.core.MessageSource;
 import org.springframework.integration.endpoint.MessageProducerSupport;
 import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.Message;
 import org.springframework.util.Assert;
 
 
@@ -123,7 +123,7 @@ public class SqsSubscribableChannelAdapter extends MessageProducerSupport
 							@Override
 							public void run() {
 								sendMessage(message);
-								sqsExecutor.acknowlegdeReceipt(message);
+								sqsExecutor.acknowledgeReceipt(message);
 								log.debug("Message sent...");
 							}
 						});
@@ -153,7 +153,7 @@ public class SqsSubscribableChannelAdapter extends MessageProducerSupport
 
 						@Override
 						public String call() throws Exception {
-							return sqsExecutor.acknowlegdeReceipt(callBackRef);
+							return sqsExecutor.acknowledgeReceipt(callBackRef);
 						}
 					}).build();
 		}
