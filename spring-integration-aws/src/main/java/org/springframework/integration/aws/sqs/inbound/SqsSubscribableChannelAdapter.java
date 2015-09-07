@@ -115,21 +115,25 @@ public class SqsSubscribableChannelAdapter extends MessageProducerSupport
 		@Override
 		public void run() {
 			while (messageLoop) {
-				final Message<?> message = sqsExecutor.poll();
-				if (message != null) {
-					try {
-						workerThreadPool.execute(new Runnable() {
-
-							@Override
-							public void run() {
-								sendMessage(message);
-								sqsExecutor.acknowledgeReceipt(message);
-								log.debug("Message sent...");
-							}
-						});
-					} catch (Throwable t) {
-						log.warn(t.getMessage(), t);
+				try {
+					final Message<?> message = sqsExecutor.poll();
+					if (message != null) {
+						try {
+							workerThreadPool.execute(new Runnable() {
+	
+								@Override
+								public void run() {
+									sendMessage(message);
+									sqsExecutor.acknowledgeReceipt(message);
+									log.debug("Message sent...");
+								}
+							});
+						} catch (Throwable t) {
+							log.warn(t.getMessage(), t);
+						}
 					}
+				} catch (Exception e) {
+					logger.error("Error while polling SQS message", e);
 				}
 			}
 		}
