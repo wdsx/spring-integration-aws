@@ -1,8 +1,6 @@
 package org.springframework.integration.aws.sqs.config;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
@@ -128,6 +126,39 @@ public class SqsInboundChannelAdapterParserTests {
 		assertNotNull(ackCallback);
 		assertTrue(ackCallback.call().isEmpty());
 
+	}
+	@Test
+	public void testPollingAutoAcknowledgeFalse() throws Exception {
+		
+		payload = null;
+		ackCallback = null;
+		context = new ClassPathXmlApplicationContext(
+				"SqsPollingInboundChannelAdapterParserTestsAcknowledgeFalse.xml", getClass());
+		
+		@SuppressWarnings("unchecked")
+		BlockingQueue<String> testQueue = (BlockingQueue<String>) context
+		.getBean("testQueue");
+		DirectChannel out = (DirectChannel) context.getBean("out");
+		out.subscribe(new MessageHandler() {
+			
+			@SuppressWarnings("unchecked")
+			@Override
+			public void handleMessage(Message<?> message)
+					throws MessagingException {
+				payload = (String) message.getPayload();
+				ackCallback = (Callable<String>) message.getHeaders().get(
+						SqsHeaders.ACK_CALLBACK);
+			}
+		});
+		
+		testQueue
+		.add("{\"payload\": \"Hello, World\", \"payloadClazz\": \"java.lang.String\", \"headers\": {}, \"properties\": {}}");
+		
+		Thread.sleep(2500);
+		assertEquals("Hello, World", payload);
+		
+		assertNull(ackCallback);
+		
 	}
 
 	@After

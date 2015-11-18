@@ -47,6 +47,16 @@ public class SqsChannelParserTests {
 				sqsExecutor, "queueName", String.class);
 
 		assertEquals("testQueue", queueNameProperty);
+		
+		final boolean autoAcknowledgeFlag = TestUtils.getPropertyValue(
+				sqsExecutor, "autoAcknowledge", Boolean.class);
+		
+		assertEquals(Boolean.FALSE, autoAcknowledgeFlag);
+		
+		final Integer visibiltyTimeout = TestUtils.getPropertyValue(
+				sqsExecutor, "visibilityTimeout", Integer.class);
+		
+		assertEquals((Integer)15, visibiltyTimeout);
 
 		Object sqsExecutorProxy = context.getBean("sqsExecutorProxy");
 		assertNotNull(sqsExecutorProxy);

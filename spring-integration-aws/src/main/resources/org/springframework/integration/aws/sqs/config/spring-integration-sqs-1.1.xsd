@@ -126,158 +126,160 @@
   </xsd:element>
   
   <xsd:attributeGroup name="coreSqsComponentAttributes">
-    <xsd:attribute name="queue-name" use="required" type="xsd:string">
-      <xsd:annotation>
-        <xsd:documentation><![CDATA[
+  	<xsd:attribute name="queue-name" use="required"
+  		type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation><![CDATA[
           Name of SQS queue. If this queue does not exist, it will be
           created.
           ]]>
-        </xsd:documentation>
-      </xsd:annotation>
-    </xsd:attribute>
-    <xsd:attribute name="queue" type="xsd:string">
-      <xsd:annotation>
-        <xsd:documentation><![CDATA[
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="queue" type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation><![CDATA[
           Reference to a java.util.concurrent.BlockingQueue<String> bean; only useful for
           mock testing.
           ]]>
-        </xsd:documentation>
-        <xsd:appinfo>
-          <tool:annotation kind="ref">
-            <tool:assignable-to type="java.util.concurrent.BlockingQueue"/>
-          </tool:annotation>
-        </xsd:appinfo>
-      </xsd:annotation>
-    </xsd:attribute>
-    <xsd:attribute name="aws-credentials-provider" type="xsd:string">
-      <xsd:annotation>
-        <xsd:documentation><![CDATA[
+  			</xsd:documentation>
+  			<xsd:appinfo>
+  				<tool:annotation kind="ref">
+  					<tool:assignable-to
+  						type="java.util.concurrent.BlockingQueue" />
+  				</tool:annotation>
+  			</xsd:appinfo>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="aws-credentials-provider"
+  		type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation><![CDATA[
           Reference to a com.amazonaws.auth.AWSCredentialsProvider bean, required if 
           "queue" is not provided.
           ]]>
-        </xsd:documentation>
-        <xsd:appinfo>
-          <tool:annotation kind="ref">
-            <tool:assignable-to
-              type="com.amazonaws.auth.AWSCredentialsProvider" />
-          </tool:annotation>
-        </xsd:appinfo>
-      </xsd:annotation>
-    </xsd:attribute>
-    <xsd:attribute name="aws-client-configuration" type="xsd:string">
-      <xsd:annotation>
-        <xsd:documentation><![CDATA[
+  			</xsd:documentation>
+  			<xsd:appinfo>
+  				<tool:annotation kind="ref">
+  					<tool:assignable-to
+  						type="com.amazonaws.auth.AWSCredentialsProvider" />
+  				</tool:annotation>
+  			</xsd:appinfo>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="aws-client-configuration"
+  		type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation><![CDATA[
           Reference to a com.amazonaws.ClientConfiguration bean, required if
           HTTP/HTTPS connection settings, such as proxy configuration, should be overwritten.
           ]]>
-        </xsd:documentation>
-        <xsd:appinfo>
-          <tool:annotation kind="ref">
-            <tool:assignable-to
-                type="com.amazonaws.ClientConfiguration" />
-          </tool:annotation>
-        </xsd:appinfo>
-      </xsd:annotation>
-    </xsd:attribute>
-    <xsd:attribute name="region-id" type="xsd:string">
-      <xsd:annotation>
-        <xsd:documentation>
-          AWS regionId to use, default is us-east-1
-        </xsd:documentation>
-      </xsd:annotation>
-    </xsd:attribute>
-    <xsd:attribute name="sqs-executor-proxy" type="xsd:string">
-      <xsd:annotation>
-        <xsd:documentation>
-          Bean name for an instance of com.threepillar.labs.si.sqs.SqsExecutorProxy which
-          will be auto-created. You can use this bean to query for generated SQS attributes
-          such as queue ARN and URL.
-        </xsd:documentation>
-      </xsd:annotation>
-    </xsd:attribute>
-    <xsd:attribute name="prefetch-count">
-      <xsd:annotation>
-        <xsd:documentation><![CDATA[
+  			</xsd:documentation>
+  			<xsd:appinfo>
+  				<tool:annotation kind="ref">
+  					<tool:assignable-to
+  						type="com.amazonaws.ClientConfiguration" />
+  				</tool:annotation>
+  			</xsd:appinfo>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="region-id" type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				AWS regionId to use, default is us-east-1
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="sqs-executor-proxy" type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				Bean name for an instance of
+  				com.threepillar.labs.si.sqs.SqsExecutorProxy which
+  				will be auto-created. You can use this bean to query
+  				for generated SQS attributes such as queue ARN and
+  				URL.
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="prefetch-count">
+  		<xsd:annotation>
+  			<xsd:documentation><![CDATA[
         Maximum count of messages to prefetch from SQS, default value is 10, which is also the maximum.
         ]]></xsd:documentation>
-      </xsd:annotation>
-      <xsd:simpleType>
-        <xsd:restriction base="xsd:int">
-          <xsd:minInclusive value="0" />
-          <xsd:maxInclusive value="10" />
-        </xsd:restriction>
-      </xsd:simpleType>
-    </xsd:attribute>
-    <xsd:attribute name="message-delay">
-      <xsd:annotation>
-        <xsd:documentation><![CDATA[
+  		</xsd:annotation>
+  		<xsd:simpleType>
+  			<xsd:restriction base="xsd:int">
+  				<xsd:minInclusive value="0" />
+  				<xsd:maxInclusive value="10" />
+  			</xsd:restriction>
+  		</xsd:simpleType>
+  	</xsd:attribute>
+  	<xsd:attribute name="message-delay">
+  		<xsd:annotation>
+  			<xsd:documentation><![CDATA[
         The time in seconds that the delivery of all messages in the queue will be delayed, default 0 (zero). 
         ]]></xsd:documentation>
-      </xsd:annotation>
-      <xsd:simpleType>
-        <xsd:restriction base="xsd:int">
-          <xsd:minInclusive value="0" />
-          <xsd:maxInclusive value="900" />
-        </xsd:restriction>
-      </xsd:simpleType>
-    </xsd:attribute>
-    <xsd:attribute name="maximum-message-size">
-      <xsd:annotation>
-        <xsd:documentation><![CDATA[
+  		</xsd:annotation>
+  		<xsd:simpleType>
+  			<xsd:restriction base="xsd:int">
+  				<xsd:minInclusive value="0" />
+  				<xsd:maxInclusive value="900" />
+  			</xsd:restriction>
+  		</xsd:simpleType>
+  	</xsd:attribute>
+  	<xsd:attribute name="maximum-message-size">
+  		<xsd:annotation>
+  			<xsd:documentation><![CDATA[
         The limit of how many bytes a message can contain before Amazon SQS rejects it, default 64KB. 
         ]]></xsd:documentation>
-      </xsd:annotation>
-      <xsd:simpleType>
-        <xsd:restriction base="xsd:int">
-          <xsd:minInclusive value="1024" />
-          <xsd:maxInclusive value="65536" />
-        </xsd:restriction>
-      </xsd:simpleType>
-    </xsd:attribute>
-    <xsd:attribute name="message-retention-period">
-      <xsd:annotation>
-        <xsd:documentation><![CDATA[
+  		</xsd:annotation>
+  		<xsd:simpleType>
+  			<xsd:restriction base="xsd:int">
+  				<xsd:minInclusive value="1024" />
+  				<xsd:maxInclusive value="65536" />
+  			</xsd:restriction>
+  		</xsd:simpleType>
+  	</xsd:attribute>
+  	<xsd:attribute name="message-retention-period">
+  		<xsd:annotation>
+  			<xsd:documentation><![CDATA[
         The number of seconds Amazon SQS retains a message, default 4 days. 
         ]]></xsd:documentation>
-      </xsd:annotation>
-      <xsd:simpleType>
-        <xsd:restriction base="xsd:int">
-          <xsd:minInclusive value="60" />
-          <xsd:maxInclusive value="1209600" />
-        </xsd:restriction>
-      </xsd:simpleType>
-    </xsd:attribute>
-    <xsd:attribute name="visibility-timeout">
-      <xsd:annotation>
-        <xsd:documentation><![CDATA[
+  		</xsd:annotation>
+  		<xsd:simpleType>
+  			<xsd:restriction base="xsd:int">
+  				<xsd:minInclusive value="60" />
+  				<xsd:maxInclusive value="1209600" />
+  			</xsd:restriction>
+  		</xsd:simpleType>
+  	</xsd:attribute>
+  	<xsd:attribute name="visibility-timeout" type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation><![CDATA[
         The length of time, in seconds, that a message received from a queue will be invisible to other 
         receiving components when they ask to receive messages, default 30 seconds. 
         ]]></xsd:documentation>
-      </xsd:annotation>
-      <xsd:simpleType>
-        <xsd:restriction base="xsd:int">
-          <xsd:minInclusive value="0" />
-          <xsd:maxInclusive value="43200" />
-        </xsd:restriction>
-      </xsd:simpleType>
-    </xsd:attribute>
-    <xsd:attribute name="message-marshaller" type="xsd:string">
-    	<xsd:annotation>
-    		<xsd:documentation><![CDATA[
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="message-marshaller" type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation><![CDATA[
     		Bean reference to org.springframework.integration.aws.MessageMarshaller
     		implementation.
     		]]>
-    		</xsd:documentation>
-    		<xsd:appinfo>
-    			<tool:annotation kind="ref">
-    				<tool:assignable-to type="org.springframework.integration.aws.MessageMarshaller"/>
-    			</tool:annotation>
-    		</xsd:appinfo>
-    	</xsd:annotation>
-    </xsd:attribute>
+  			</xsd:documentation>
+  			<xsd:appinfo>
+  				<tool:annotation kind="ref">
+  					<tool:assignable-to
+  						type="org.springframework.integration.aws.MessageMarshaller" />
+  				</tool:annotation>
+  			</xsd:appinfo>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="auto-acknowledge" type="xsd:string"></xsd:attribute>
   </xsd:attributeGroup>
 
-	<xsd:attributeGroup name="inboundTypeAttributes">
+  <xsd:attributeGroup name="inboundTypeAttributes">
 		<xsd:attribute name="receive-message-wait-timeout">
 		  <xsd:annotation>
 		    <xsd:documentation>

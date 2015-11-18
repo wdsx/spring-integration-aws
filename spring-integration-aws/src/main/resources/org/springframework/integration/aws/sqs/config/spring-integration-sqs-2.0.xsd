@@ -160,12 +160,14 @@
 				</xsd:documentation>
 				<xsd:appinfo>
 					<tool:annotation kind="ref">
-						<tool:assignable-to type="java.util.concurrent.BlockingQueue" />
+						<tool:assignable-to
+							type="java.util.concurrent.BlockingQueue" />
 					</tool:annotation>
 				</xsd:appinfo>
 			</xsd:annotation>
 		</xsd:attribute>
-		<xsd:attribute name="aws-credentials-provider" type="xsd:string">
+		<xsd:attribute name="aws-credentials-provider"
+			type="xsd:string">
 			<xsd:annotation>
 				<xsd:documentation><![CDATA[
           Reference to a com.amazonaws.auth.AWSCredentialsProvider bean, required if 
@@ -174,12 +176,14 @@
 				</xsd:documentation>
 				<xsd:appinfo>
 					<tool:annotation kind="ref">
-						<tool:assignable-to type="com.amazonaws.auth.AWSCredentialsProvider" />
+						<tool:assignable-to
+							type="com.amazonaws.auth.AWSCredentialsProvider" />
 					</tool:annotation>
 				</xsd:appinfo>
 			</xsd:annotation>
 		</xsd:attribute>
-		<xsd:attribute name="aws-client-configuration" type="xsd:string">
+		<xsd:attribute name="aws-client-configuration"
+			type="xsd:string">
 			<xsd:annotation>
 				<xsd:documentation><![CDATA[
           Reference to a com.amazonaws.ClientConfiguration bean, required if
@@ -188,7 +192,8 @@
 				</xsd:documentation>
 				<xsd:appinfo>
 					<tool:annotation kind="ref">
-						<tool:assignable-to type="com.amazonaws.ClientConfiguration" />
+						<tool:assignable-to
+							type="com.amazonaws.ClientConfiguration" />
 					</tool:annotation>
 				</xsd:appinfo>
 			</xsd:annotation>
@@ -205,9 +210,9 @@
 				<xsd:documentation>
 					Bean name for an instance of
 					com.threepillar.labs.si.sqs.SqsExecutorProxy which
-					will be auto-created. You can use this bean to query for generated SQS
-					attributes
-					such as queue ARN and URL.
+					will be auto-created. You can use this bean to query
+					for generated SQS attributes such as queue ARN and
+					URL.
 				</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
@@ -263,19 +268,13 @@
 				</xsd:restriction>
 			</xsd:simpleType>
 		</xsd:attribute>
-		<xsd:attribute name="visibility-timeout">
+		<xsd:attribute name="visibility-timeout" type="xsd:string">
 			<xsd:annotation>
 				<xsd:documentation><![CDATA[
         The length of time, in seconds, that a message received from a queue will be invisible to other 
         receiving components when they ask to receive messages, default 30 seconds. 
         ]]></xsd:documentation>
-			</xsd:annotation>
-			<xsd:simpleType>
-				<xsd:restriction base="xsd:int">
-					<xsd:minInclusive value="0" />
-					<xsd:maxInclusive value="43200" />
-				</xsd:restriction>
-			</xsd:simpleType>
+			</xsd:annotation>
 		</xsd:attribute>
 		<xsd:attribute name="message-marshaller" type="xsd:string">
 			<xsd:annotation>
@@ -300,6 +299,7 @@
 				</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
+		<xsd:attribute name="auto-acknowledge" type="xsd:string"></xsd:attribute>
 	</xsd:attributeGroup>
 
 	<xsd:attributeGroup name="inboundTypeAttributes">

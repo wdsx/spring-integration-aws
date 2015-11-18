@@ -75,9 +75,6 @@ public final class SqsParserUtils {
 				sqsExecutorBuilder, element, "message-retention-period");
 
 		IntegrationNamespaceUtils.setReferenceIfAttributeDefined(
-				sqsExecutorBuilder, element, "visibility-timeout");
-
-		IntegrationNamespaceUtils.setReferenceIfAttributeDefined(
 				sqsExecutorBuilder, element, "aws-client-configuration");
 
 		IntegrationNamespaceUtils.setReferenceIfAttributeDefined(
@@ -85,6 +82,12 @@ public final class SqsParserUtils {
 
 		IntegrationNamespaceUtils.setValueIfAttributeDefined(
 				sqsExecutorBuilder, element, "queue-url");
+		
+		IntegrationNamespaceUtils.setValueIfAttributeDefined(
+				sqsExecutorBuilder, element, "visibility-timeout");
+		
+		IntegrationNamespaceUtils.setValueIfAttributeDefined(
+				sqsExecutorBuilder, element, "auto-acknowledge");
 
 		return sqsExecutorBuilder;
 
@@ -103,7 +106,7 @@ public final class SqsParserUtils {
 			BeanDefinitionBuilder sqsExecutorProxyBuilder = BeanDefinitionBuilder
 					.genericBeanDefinition(SqsExecutorProxy.class);
 			sqsExecutorProxyBuilder
-					.addConstructorArgReference(sqsExecutorBeanName);
+			.addConstructorArgReference(sqsExecutorBeanName);
 			parserContext.registerBeanComponent(new BeanComponentDefinition(
 					sqsExecutorProxyBuilder.getBeanDefinition(),
 					sqsProxyBeanName));

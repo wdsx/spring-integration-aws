@@ -87,6 +87,7 @@ public class SqsExecutor implements InitializingBean, DisposableBean {
 	private Integer visibilityTimeout;
 	private ClientConfiguration awsClientConfiguration;
 	private MessageMarshaller messageMarshaller;
+	private boolean autoAcknowledge = true;
 
 	private volatile int destroyWaitTime;
 	private Set<Permission> permissions;
@@ -137,44 +138,50 @@ public class SqsExecutor implements InitializingBean, DisposableBean {
 
 			addPermissions();
 		}
+		
 	}
 
-	private void createQueueIfNotExists() {
+	protected void createQueueIfNotExists() {
 		for (String qUrl : sqsClient.listQueues().getQueueUrls()) {
 			if (qUrl.contains(queueName)) {
 				queueUrl = qUrl;
 				break;
 			}
 		}
+		Map<String, String> queueAttributes = populateQueueAttributes();
 		if (queueUrl == null) {
 			CreateQueueRequest request = new CreateQueueRequest(queueName);
-			Map<String, String> queueAttributes = new HashMap<String, String>();
-			queueAttributes.put("ReceiveMessageWaitTimeSeconds", Integer
-					.valueOf(receiveMessageWaitTimeout).toString());
-			if (messageDelay != null) {
-				queueAttributes.put("DelaySeconds", messageDelay.toString());
-			}
-			if (maximumMessageSize != null) {
-				queueAttributes.put("MaximumMessageSize",
-						maximumMessageSize.toString());
-			}
-			if (messageRetentionPeriod != null) {
-				queueAttributes.put("MessageRetentionPeriod",
-						messageRetentionPeriod.toString());
-			}
-			if (visibilityTimeout != null) {
-				queueAttributes.put("VisibilityTimeout",
-						visibilityTimeout.toString());
-			}
+			queueAttributes.put("ReceiveMessageWaitTimeSeconds", Integer.valueOf(receiveMessageWaitTimeout).toString());
 			request.setAttributes(queueAttributes);
 			CreateQueueResult result = sqsClient.createQueue(request);
 			queueUrl = result.getQueueUrl();
 			log.debug("New queue available at: " + queueUrl);
 		} else {
 			log.debug("Queue already exists: " + queueUrl);
+			if(!queueAttributes.isEmpty()) {
+				SetQueueAttributesRequest setRequest = new SetQueueAttributesRequest(queueUrl, queueAttributes);
+				sqsClient.setQueueAttributes(setRequest);
+			}
 		}
 
 		resolveQueueArn();
+	}
+
+	private Map<String, String> populateQueueAttributes() {
+		Map<String, String> queueAttributes = new HashMap<>();
+		if (messageDelay != null) {
+			queueAttributes.put("DelaySeconds", messageDelay.toString());
+		}
+		if (maximumMessageSize != null) {
+			queueAttributes.put("MaximumMessageSize", maximumMessageSize.toString());
+		}
+		if (messageRetentionPeriod != null) {
+			queueAttributes.put("MessageRetentionPeriod", messageRetentionPeriod.toString());
+		}
+		if (visibilityTimeout != null) {
+			queueAttributes.put("VisibilityTimeout", visibilityTimeout.toString());
+		}
+		return queueAttributes;
 	}
 
 	private void resolveQueueArn() {
@@ -501,11 +508,12 @@ public class SqsExecutor implements InitializingBean, DisposableBean {
 	 * 
 	 * @param visibilityTimeout
 	 */
-	public void setVisibilityTimeout(Integer visibilityTimeout) {
+	public void setVisibilityTimeout(String visibilityTimeout) {
+		Integer visibilityTimeoutInt = Integer.parseInt(visibilityTimeout);
 		Assert.isTrue(
-				visibilityTimeout >= 0 && visibilityTimeout <= 43200,
+				visibilityTimeoutInt >= 0 && visibilityTimeoutInt <= 43200,
 				"'visibilityTimeout' must be an integer representing seconds, from 0 to 43200 (12 hours)");
-		this.visibilityTimeout = visibilityTimeout;
+		this.visibilityTimeout = visibilityTimeoutInt;
 	}
 
 	@Override
@@ -586,5 +594,16 @@ public class SqsExecutor implements InitializingBean, DisposableBean {
 	public void setQueueUrl(String queueUrl) {
 		this.queueUrl = queueUrl;
 	}
+
+	public boolean isAutoAcknowledge() {
+		return autoAcknowledge;
+	}
+
+	public void setAutoAcknowledge(String autoAcknowledge) {
+		if(("FALSE").equalsIgnoreCase(autoAcknowledge)){
+			this.autoAcknowledge = false;
+		}
+	}
+	
 
 }

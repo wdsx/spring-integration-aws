@@ -17,7 +17,7 @@ import org.springframework.util.Assert;
 
 
 public class SqsSubscribableChannelAdapter extends MessageProducerSupport
-		implements MessageSource<Object> {
+implements MessageSource<Object> {
 
 	private final Log log = LogFactory
 			.getLog(SqsSubscribableChannelAdapter.class);
@@ -120,12 +120,17 @@ public class SqsSubscribableChannelAdapter extends MessageProducerSupport
 					if (message != null) {
 						try {
 							workerThreadPool.execute(new Runnable() {
-	
+
 								@Override
 								public void run() {
 									sendMessage(message);
-									sqsExecutor.acknowledgeReceipt(message);
-									log.debug("Message sent...");
+									if(sqsExecutor.isAutoAcknowledge()){
+										sqsExecutor.acknowledgeReceipt(message);
+										log.debug("Message sent...");
+									}
+									else{
+										log.debug("AutoAcknowledge is false, message not sent...");
+									}
 								}
 							});
 						} catch (Throwable t) {
@@ -151,17 +156,17 @@ public class SqsSubscribableChannelAdapter extends MessageProducerSupport
 		if (incoming != null) {
 			Object payload = incoming.getPayload();
 			final Message<?> callBackRef = incoming;
-			message = MessageBuilder.withPayload(payload)
-					.copyHeaders(incoming.getHeaders())
-					.setHeader(SqsHeaders.ACK_CALLBACK, new Callable<String>() {
-
-						@Override
-						public String call() throws Exception {
+			MessageBuilder<Object> messageBuilder = MessageBuilder.withPayload(payload).copyHeaders(incoming.getHeaders());
+			if(sqsExecutor.isAutoAcknowledge()){
+				messageBuilder.setHeader(SqsHeaders.ACK_CALLBACK, new Callable<String>() {
+					@Override
+					public String call() throws Exception {
 							return sqsExecutor.acknowledgeReceipt(callBackRef);
-						}
-					}).build();
+					}
+				});
+			}
+			message = messageBuilder.build();
 		}
 		return message;
 	}
-
 }
